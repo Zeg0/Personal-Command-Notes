@@ -36,3 +36,32 @@ mv go go-$VERSION
 sudo mv go-$VERSION /usr/local
 go --v
 ```
+
+# systemd service files
+```
+systemctl start dreceiver.service
+systemctl restart dreceiver.service
+systemctl stop dreceiver.service
+systemctl status dreceiver.service
+```
+```
+[Unit]
+Description="SOME EXECUTABLE SERVICE -ABC"
+After=network.target
+
+[Service]
+Environment="KEY=VALUE"
+Type=forking
+User=root
+Group=root
+ExecStart=/home/zego/executable.bin -arg1 abc
+RuntimeDirectory=/home/zego/
+WorkingDirectory=/home/zego/
+Restart=on-failure
+Type=simple
+RestartSec=3
+TimeoutStopSec=30s
+
+[Install]
+WantedBy=multi-user.target"
+``` 
