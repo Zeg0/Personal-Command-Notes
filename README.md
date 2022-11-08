@@ -21,6 +21,20 @@ sudo su -
 su -
 ```
 
+# ssh
+
+```
+ssh servername
+nano ~/.ssh/config
+ssh-keygen -t rsa
+```
+```
+Host servername
+        HostName 11.22.33.44
+        # IdentityFile ~/.ssh/server_keyfile.pem
+        User ubuntu
+```
+
 # Install Go on Windows-WSL / without apt
 
 ```
@@ -66,3 +80,14 @@ TimeoutStopSec=30s
 [Install]
 WantedBy=multi-user.target"
 ``` 
+
+# list unprocessed nats messages in one channel for each consumer
+```
+#!/bin/bash
+credfile=/home/my-wrk.creds
+cafile=/home/nats-ca.cer
+server=nats.localhost
+#### nats $*  --creds $credfile --tlsca=$cafile -s $server 
+channel=NATS_TEST_CHANNEL_CONSUMER
+nats --creds $credfile --tlsca=$cafile -s $server consumer report $channel | grep -v '───────' | grep -v 'Consumer report for' | awk -F'│' '{print $2 $8}'
+```
