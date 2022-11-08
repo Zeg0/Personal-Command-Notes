@@ -39,11 +39,12 @@ go --v
 
 # systemd service files
 ```
-systemctl start dreceiver.service
-systemctl restart dreceiver.service
-systemctl stop dreceiver.service
-systemctl status dreceiver.service
+systemctl start my_abc.service
+systemctl restart my_abc.service
+systemctl stop my_abc.service
+systemctl status my_abc.service
 ```
+--> /etc/systemd/system/my_abc.service
 ```
 [Unit]
 Description="SOME EXECUTABLE SERVICE -ABC"
