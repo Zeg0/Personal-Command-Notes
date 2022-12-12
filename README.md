@@ -1,6 +1,13 @@
 # Personal-Command-Notes
 just some scribbel notes of useful commands
 
+# Crontab
+
+https://crontab.guru/#0_1_*_*_*
+```
+EDITOR=nano crontab -e
+```
+
 # Unix System Infos
 
 ```
