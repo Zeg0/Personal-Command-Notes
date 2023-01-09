@@ -88,6 +88,12 @@ TimeoutStopSec=30s
 WantedBy=multi-user.target"
 ``` 
 
+# Windows neue CMD-Shell als anderer User abc spawnen
+
+```
+runas /profile /env /user:abc cmd
+```
+
 # list unprocessed nats messages in one channel for each consumer
 ```
 #!/bin/bash
