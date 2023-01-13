@@ -104,3 +104,37 @@ server=nats.localhost
 channel=NATS_TEST_CHANNEL_CONSUMER
 nats --creds $credfile --tlsca=$cafile -s $server consumer report $channel | grep -v '───────' | grep -v 'Consumer report for' | awk -F'│' '{print $2 $8}'
 ```
+
+# s3-cli step through buckets and download a file manually
+```
+#!/bin/bash
+$BASEURL=mys3domain
+
+if [[ -z "${ACCK}" ]]; then
+   read -r -p "enter S3 ACCESS KEY: " ACCK
+   export ACCK=$ACCK
+fi
+if [[ -z "${SECK}" ]]; then
+   read -r -p "enter S3 SECRET KEY: " SECK
+   export SECK=$SECK
+fi
+
+# expecting files to be versioned-tar packages of executables uploaded from a compile-server
+# there are some git groups with projects, the compile server builds executables and uploads them to s3 in tar-packages
+# --> GRP is the first s3 bucket
+# --> PRJ is the second subbucket
+# --> inside are versioned release tars
+
+./s3-cli.exe --access-key $ACCK --secret-key $SECK ls s3://$BASEURL/
+read -r -p "GIT group (- Example: 'mygroup' -) : " GRP
+./s3-cli.exe --access-key $ACCK --secret-key $SECK ls s3://$BASEURL/$GRP/
+read -r -p "GIT project (- Example: 'myproject' -) : " PRJ
+./s3-cli.exe --access-key $ACCK --secret-key $SECK ls s3://$BASEURL/$GRP/$PRJ/
+read -r -p "Enter version (- Example: latest_master or rel-1.0.0 -) : " VERS
+
+echo "Going to download s3://$BASEURL/$GRP/$PRJ/$VERS.tar.gz"
+./s3-cli.exe --access-key $ACCK --secret-key $SECK cp s3://$BASEURL/$GRP/$PRJ/$VERS.tar.gz .
+echo "Try tar -xvzf $VERS.tar.gz"
+tar -xvzf $VERS.tar.gz
+echo "end"
+```
