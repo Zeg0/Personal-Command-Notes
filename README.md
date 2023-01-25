@@ -105,6 +105,51 @@ channel=NATS_TEST_CHANNEL_CONSUMER
 nats --creds $credfile --tlsca=$cafile -s $server consumer report $channel | grep -v '───────' | grep -v 'Consumer report for' | awk -F'│' '{print $2 $8}'
 ```
 
+# blue/green deployment with folder-symlinks
+
+```
+# mkdir green
+# mkdir blue
+# touch green/test.sh
+# touch blue/test.sh
+# ...
+
+# touch deploy.sh
+############################################################
+#!/bin/bash
+active=blue
+test=green
+ln_active=active
+ln_test=test
+if [ "$(readlink -- $ln_active )" = blue ];
+then
+	active=blue
+	test=green
+else
+	active=green
+	test=blue
+fi
+echo "currently active is $active"
+echo "deploying to $test now..."
+# ...
+# deploy & test
+# ...
+echo "deploy and test ok, swapping..."
+# swap links
+unlink $ln_test
+unlink $ln_active
+ln -s $active $ln_test
+ln -s $test $ln_active
+echo "now $test is active"
+############################################################
+
+# ./deploy.sh
+# ./active/test.sh
+# ./deploy.sh
+# ./active/test.sh
+# ...
+```
+
 # s3-cli step through buckets and download a file manually
 ```
 #!/bin/bash
