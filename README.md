@@ -127,16 +127,16 @@ test_func () {
 
 basedir=
 active="$basedir"blue
-test="$basedir"green
+passive="$basedir"green
 ln_active="$basedir"active
-ln_test="$basedir"test
+ln_passive="$basedir"passive
 if [ "$(readlink -- $ln_active )" != $active ];
 then
 	active="$basedir"green
-	test="$basedir"blue
+	passive="$basedir"blue
 fi
 echo "currently active is $active"
-echo "deploying to $test now..."
+echo "deploy to $passive now..."
 # deploy & test
 deploy_func
 test_func
@@ -154,11 +154,11 @@ then
 fi
 echo "deploy and test done, swapping..."
 # swap links
-unlink $ln_test
+unlink $ln_passive
 unlink $ln_active
-ln -s $active $ln_test
-ln -s $test $ln_active
-echo "now $test is active"
+ln -s $active $ln_passive
+ln -s $passive $ln_active
+echo "now $passive is active"
 
 ############################################################
 
