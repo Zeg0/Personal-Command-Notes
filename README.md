@@ -125,17 +125,15 @@ test_func () {
 	echo "test..."
 }
 
-active=blue
-test=green
-ln_active=active
-ln_test=test
-if [ "$(readlink -- $ln_active )" = blue ];
+basedir=
+active="$basedir"blue
+test="$basedir"green
+ln_active="$basedir"active
+ln_test="$basedir"test
+if [ "$(readlink -- $ln_active )" != $active ];
 then
-	active=blue
-	test=green
-else
-	active=green
-	test=blue
+	active="$basedir"green
+	test="$basedir"blue
 fi
 echo "currently active is $active"
 echo "deploying to $test now..."
