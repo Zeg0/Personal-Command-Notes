@@ -134,7 +134,19 @@ echo "deploying to $test now..."
 # ...
 # deploy & test
 # ...
-echo "deploy and test ok, swapping..."
+if [ "$1" != "-y" ];
+then
+	# ask to continue
+	while true; do
+	read -p "Do you want to swap the deployed version to active now? [y/n]" yn
+	case $yn in
+        	[Yy]* ) break;;
+        	[Nn]* ) exit;;
+        	* ) echo "Please answer yes or no.";;
+	esac
+	done
+fi
+echo "deploy and test done, swapping..."
 # swap links
 unlink $ln_test
 unlink $ln_active
@@ -143,9 +155,9 @@ ln -s $test $ln_active
 echo "now $test is active"
 ############################################################
 
-# ./deploy.sh
+# ./deploy.sh -y
 # ./active/test.sh
-# ./deploy.sh
+# ./deploy.sh -y
 # ./active/test.sh
 # ...
 ```
