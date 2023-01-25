@@ -117,6 +117,14 @@ nats --creds $credfile --tlsca=$cafile -s $server consumer report $channel | gre
 # touch deploy.sh
 ############################################################
 #!/bin/bash
+
+deploy_func () {
+	echo "deploy..."
+}
+test_func () {
+	echo "test..."
+}
+
 active=blue
 test=green
 ln_active=active
@@ -131,9 +139,9 @@ else
 fi
 echo "currently active is $active"
 echo "deploying to $test now..."
-# ...
 # deploy & test
-# ...
+deploy_func
+test_func
 if [ "$1" != "-y" ];
 then
 	# ask to continue
@@ -153,6 +161,7 @@ unlink $ln_active
 ln -s $active $ln_test
 ln -s $test $ln_active
 echo "now $test is active"
+
 ############################################################
 
 # ./deploy.sh -y
