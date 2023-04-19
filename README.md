@@ -12,6 +12,7 @@ EDITOR=nano crontab -e
 
 ```
 df -h
+df -H --output=source,size,used,avail /var/
 du -h -d 1 /var/
 uname -a
 ps -aux
