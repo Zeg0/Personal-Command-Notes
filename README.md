@@ -4,6 +4,8 @@ just some scribbel notes of useful commands
 # Kill a single running program in sh script
 
 ```
+#!/bin/bash
+
 proc_kill () {
 	PROC_NAME=$1
 	PROC_PID=$(ps -ef | awk '$8~"'$PROC_NAME'" {print $2}')
@@ -20,7 +22,12 @@ proc_kill () {
 
 # if your program is running in multiple instances or "*test.bin*" is not unique use a different method
 # double check with >> ps -aux | grep test.bin | grep -v grep
-proc_kill test.bin
+# proc_kill test.bin
+
+if [ $1 != "" ]
+then
+        proc_kill $1
+fi
 ```
 
 # Crontab
