@@ -19,6 +19,7 @@ proc_kill () {
 }
 
 # if your program is running in multiple instances or "*test.bin*" is not unique use a different method
+# double check with >> ps -aux | grep test.bin | grep -v grep
 proc_kill test.bin
 ```
 
