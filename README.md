@@ -1,6 +1,27 @@
 # Personal-Command-Notes
 just some scribbel notes of useful commands
 
+# Kill a single running program in sh script
+
+```
+proc_kill () {
+	PROC_NAME=$1
+	PROC_PID=$(ps -ef | awk '$8~"'$PROC_NAME'" {print $2}')
+	PROC_LINE=$(ps -ef | awk '$8~"'$PROC_NAME'" {print $0}')
+	if [ "$PROC_PID" != "" ]
+	then
+		echo "going to kill:"
+		echo "$PROC_LINE"
+		echo "$(date) >> kill $PROC_PID"
+		
+		kill $PROC_PID
+	fi
+}
+
+# if your program is running in multiple instances or "*test.bin*" is not unique use a different method
+proc_kill test.bin
+```
+
 # Crontab
 
 https://crontab.guru/#0_1_*_*_*
