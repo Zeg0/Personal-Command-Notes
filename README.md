@@ -10,7 +10,7 @@ proc_kill () {
 	PROC_LINE=$(ps -ef | awk '$8~"'$PROC_NAME'" {print $0}')
 	if [ "$PROC_PID" != "" ]
 	then
-		echo "=== $(date) going to kill:"
+		echo "=== $(date) === going to kill:"
 		echo "$PROC_LINE"
 		echo ">> kill $PROC_PID"
 		
